@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TECH CONNECT · Painel Admin</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #F4F6FA; color: #1a1a2e; min-height: 100vh; padding: 2rem 1rem; }
+  .wrap { max-width: 680px; margin: 0 auto; }
+
+  /* LOGIN */
+  .login-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh; }
+  .login-box { background: #fff; border-radius: 16px; padding: 2.5rem 2rem; box-shadow: 0 4px 20px rgba(0,0,0,.1); width: 100%; max-width: 380px; text-align: center; }
+  .login-box svg { display: block; margin: 0 auto 16px; }
+  .login-box h2 { font-size: 18px; font-weight: 600; color: #1D4A8C; margin-bottom: 6px; }
+  .login-box p { font-size: 13px; color: #888; margin-bottom: 1.5rem; }
+  .login-box input { width: 100%; background: #F8F9FC; border: 1px solid #E2E6EF; border-radius: 8px; padding: 12px; font-size: 15px; text-align: center; letter-spacing: 4px; font-family: inherit; outline: none; margin-bottom: 1rem; }
+  .login-box input:focus { border-color: #1D4A8C; }
+  .btn-login { width: 100%; padding: 13px; background: #1D4A8C; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .btn-login:hover { background: #163a70; }
+  .login-error { color: #E24B4A; font-size: 13px; margin-top: 10px; display: none; }
+
+  /* ADMIN PANEL */
+  .admin-screen { display: none; }
+  .admin-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 10px; }
+  .admin-hdr h1 { font-size: 20px; font-weight: 600; color: #1D4A8C; }
+  .admin-hdr-right { display: flex; align-items: center; gap: 10px; }
+  .badge-admin { background: #1D4A8C; color: #fff; font-size: 11px; padding: 4px 12px; border-radius: 20px; font-weight: 600; }
+  .btn-logout { padding: 8px 14px; border: 1px solid #E2E6EF; border-radius: 8px; background: #fff; font-size: 13px; color: #888; cursor: pointer; font-family: inherit; }
+  .btn-logout:hover { background: #F4F6FA; color: #E24B4A; border-color: #E24B4A; }
+
+  .tabs { display: flex; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.08); margin-bottom: 1.5rem; }
+  .tab { flex: 1; padding: 12px 6px; text-align: center; font-size: 13px; font-weight: 500; cursor: pointer; background: #fff; color: #888; border: none; font-family: inherit; transition: all .2s; }
+  .tab.on { background: #1D4A8C; color: #fff; }
+
+  .card { background: #fff; border-radius: 12px; padding: 1.4rem; margin-bottom: 1rem; box-shadow: 0 1px 4px rgba(0,0,0,.07); }
+  .slbl { font-size: 11px; font-weight: 700; color: #1D4A8C; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 1rem; }
+
+  /* STATS */
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 1.5rem; }
+  .stat { background: #fff; border-radius: 12px; padding: 1rem 1.2rem; box-shadow: 0 1px 4px rgba(0,0,0,.07); text-align: center; }
+  .stat-num { font-size: 28px; font-weight: 700; color: #1D4A8C; }
+  .stat-lbl { font-size: 12px; color: #888; margin-top: 4px; }
+
+  /* RESPONSES */
+  .rh { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+  .rh h3 { font-size: 15px; font-weight: 600; }
+  .rc { background: #1D4A8C; color: #fff; font-size: 11px; padding: 3px 10px; border-radius: 12px; font-weight: 600; }
+  .eb { padding: 8px 14px; border: 1px solid #E2E6EF; border-radius: 8px; background: #fff; font-size: 13px; color: #555; cursor: pointer; font-family: inherit; }
+  .eb:hover { background: #F4F6FA; }
+  .eb-danger { border-color: #E24B4A; color: #E24B4A; }
+  .eb-danger:hover { background: #FCEBEB; }
+  .rr { background: #fff; border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+  .rr-name { font-size: 14px; font-weight: 600; color: #1a1a2e; }
+  .rr-meta { font-size: 12px; color: #888; margin-top: 2px; }
+  .rr-nota { display: inline-block; margin-top: 6px; background: #E6F1FB; color: #0C447C; font-size: 11px; padding: 3px 9px; border-radius: 8px; font-weight: 600; }
+  .rr-quote { font-size: 13px; color: #666; margin-top: 7px; font-style: italic; }
+  .rr-detail { font-size: 12px; color: #888; margin-top: 6px; line-height: 1.6; }
+  .empty { text-align: center; padding: 2.5rem; color: #aaa; font-size: 14px; }
+
+  /* QR */
+  .qrwrap { text-align: center; padding: 1rem 0; }
+  .url-editor { background: #fff; border-radius: 12px; padding: 1.4rem; margin-bottom: 1.2rem; box-shadow: 0 1px 4px rgba(0,0,0,.07); }
+  .url-editor p { font-size: 13px; color: #555; margin-bottom: 10px; line-height: 1.6; }
+  .url-row { display: flex; gap: 8px; }
+  .url-input { flex: 1; background: #F8F9FC; border: 1px solid #E2E6EF; border-radius: 8px; padding: 10px 12px; font-size: 14px; color: #1a1a2e; font-family: inherit; outline: none; }
+  .url-input:focus { border-color: #1D4A8C; }
+  .btn-gerar { padding: 10px 18px; background: #1D4A8C; color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; white-space: nowrap; }
+  .btn-gerar:hover { background: #163a70; }
+  .qrbox { display: inline-block; padding: 18px; background: white; border-radius: 14px; box-shadow: 0 2px 12px rgba(0,0,0,.1); position: relative; }
+  .qrlogo { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); background: white; border-radius: 8px; padding: 4px; width: 54px; height: 54px; display: flex; align-items: center; justify-content: center; }
+  .qrnote { font-size: 13px; color: #888; margin-top: 12px; }
+  .qr-url-display { margin: 10px auto 0; max-width: 360px; font-size: 12px; color: #1D4A8C; word-break: break-all; background: #F0F4FA; padding: 8px 12px; border-radius: 8px; }
+  .cpbtn { margin-top: 12px; padding: 9px 18px; border: 1px solid #E2E6EF; border-radius: 8px; background: #fff; font-size: 13px; color: #555; cursor: pointer; font-family: inherit; }
+  .cpbtn:hover { background: #F4F6FA; }
+  .qr-info { margin-top: 16px; font-size: 12px; color: #999; max-width: 300px; margin-left: auto; margin-right: auto; line-height: 1.7; }
+  #qr-placeholder { color: #bbb; font-size: 13px; padding: 2rem 0; }
+  #qr-result { display: none; }
+
+  #vr { display: block; } #vq { display: none; }
+</style>
+</head>
+<body>
+
+<!-- TELA DE LOGIN -->
+<div class="login-screen" id="login-screen">
+  <div class="login-box">
+    <svg width="160" height="46" viewBox="0 0 360 104" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <text x="0" y="72" font-family="Arial,sans-serif" font-weight="900" font-size="88" letter-spacing="-4" fill="#1D4A8C">TECH</text>
+      <line x1="0" y1="82" x2="360" y2="82" stroke="#1D4A8C" stroke-width="3"/>
+      <text x="6" y="102" font-family="Arial,sans-serif" font-weight="400" font-size="22" letter-spacing="14" fill="#1D4A8C">CONSULTING</text>
+    </svg>
+    <h2>Painel Administrativo</h2>
+    <p>Digite a senha para acessar as respostas e o QR Code</p>
+    <input type="password" id="pwd-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')login()">
+    <button class="btn-login" onclick="login()">Entrar →</button>
+    <div class="login-error" id="login-error">Senha incorreta. Tente novamente.</div>
+  </div>
+</div>
+
+<!-- PAINEL ADMIN -->
+<div class="admin-screen" id="admin-screen">
+  <div class="wrap">
+    <div class="admin-hdr">
+      <div>
+        <h1>Painel Admin · TECH CONNECT</h1>
+      </div>
+      <div class="admin-hdr-right">
+        <span class="badge-admin">🔐 Admin</span>
+        <button class="btn-logout" onclick="logout()">Sair</button>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num" id="stat-total">0</div>
+        <div class="stat-lbl">Respostas</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="stat-nps">—</div>
+        <div class="stat-lbl">NPS médio</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="stat-hoje">0</div>
+        <div class="stat-lbl">Hoje</div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab on" onclick="go('r',this)">📊 Respostas</button>
+      <button class="tab" onclick="go('q',this)">📱 QR Code</button>
+    </div>
+
+    <!-- RESPOSTAS -->
+    <div id="vr">
+      <div class="rh">
+        <div style="display:flex;align-items:center;gap:10px">
+          <h3>Respostas coletadas</h3>
+          <span class="rc" id="cnt">0</span>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="eb" onclick="exportCSV()">⬇️ Exportar CSV</button>
+          <button class="eb eb-danger" onclick="limparRespostas()">🗑️ Limpar</button>
+        </div>
+      </div>
+      <div id="rl"><div class="empty">Nenhuma resposta ainda.</div></div>
+    </div>
+
+    <!-- QR CODE -->
+    <div id="vq">
+      <div class="qrwrap">
+        <div class="url-editor">
+          <div class="slbl">Configure o QR Code</div>
+          <p>Cole a URL do formulário público. O QR Code será gerado apontando para esse endereço.</p>
+          <div class="url-row">
+            <input class="url-input" id="url-input" placeholder="https://laricavalvante.github.io/techconnect-feedback" />
+            <button class="btn-gerar" onclick="gerarQR()">Gerar QR Code</button>
+          </div>
+        </div>
+        <div id="qr-placeholder"><p>👆 Cole a URL acima e clique em <strong>Gerar QR Code</strong></p></div>
+        <div id="qr-result">
+          <div class="qrbox">
+            <div id="qrc"></div>
+            <div class="qrlogo">
+              <svg width="44" height="44" viewBox="0 0 360 104" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="360" height="104" rx="8" fill="white"/>
+                <text x="4" y="72" font-family="Arial,sans-serif" font-weight="900" font-size="88" letter-spacing="-4" fill="#1D4A8C">TECH</text>
+              </svg>
+            </div>
+          </div>
+          <div class="qrnote">Aponte a câmera para acessar o formulário</div>
+          <div class="qr-url-display" id="qr-url-display"></div>
+          <div><button class="cpbtn" onclick="copiarLink()">📋 Copiar link</button></div>
+          <div class="qr-info">Imprima este QR Code e coloque na recepção do evento, ou compartilhe digitalmente.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // ── SENHA — altere aqui para sua senha ──────────────────
+  const SENHA = 'techconnect2026';
+  // ────────────────────────────────────────────────────────
+
+  let resps = [];
+  let urlAtual = '';
+
+  function login() {
+    const pwd = document.getElementById('pwd-input').value;
+    if (pwd === SENHA) {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('admin-screen').style.display = 'block';
+      carregarDados();
+    } else {
+      document.getElementById('login-error').style.display = 'block';
+      document.getElementById('pwd-input').value = '';
+      document.getElementById('pwd-input').focus();
+    }
+  }
+
+  function logout() {
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('admin-screen').style.display = 'none';
+    document.getElementById('pwd-input').value = '';
+    document.getElementById('login-error').style.display = 'none';
+  }
+
+  function carregarDados() {
+    try { const s = localStorage.getItem('tc_techconnect'); if (s) resps = JSON.parse(s); } catch(e) {}
+    atualizarStats();
+    renderRespostas();
+  }
+
+  function atualizarStats() {
+    document.getElementById('stat-total').textContent = resps.length;
+    document.getElementById('cnt').textContent = resps.length;
+    const hoje = new Date().toLocaleDateString('pt-BR');
+    const hojeCnt = resps.filter(r => r.ts && r.ts.startsWith(hoje)).length;
+    document.getElementById('stat-hoje').textContent = hojeCnt;
+    const notas = resps.filter(r => r.nps && r.nps !== '-').map(r => parseInt(r.nps));
+    if (notas.length) {
+      const media = (notas.reduce((a,b) => a+b, 0) / notas.length).toFixed(1);
+      document.getElementById('stat-nps').textContent = media;
+    }
+  }
+
+  function go(v, btn) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+    btn.classList.add('on');
+    document.getElementById('vr').style.display = v === 'r' ? 'block' : 'none';
+    document.getElementById('vq').style.display = v === 'q' ? 'block' : 'none';
+  }
+
+  function renderRespostas() {
+    const rl = document.getElementById('rl');
+    if (!resps.length) { rl.innerHTML = '<div class="empty">Nenhuma resposta ainda.<br>Compartilhe o QR Code para começar!</div>'; return; }
+    rl.innerHTML = resps.map((r, i) => `
+      <div class="rr">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div class="rr-name">${r.nome}</div>
+            <div class="rr-meta">${r.empresa}${r.cargo ? ' · ' + r.cargo : ''} · ${r.email}</div>
+            ${r.nps !== '-' ? `<span class="rr-nota">Nota: ${r.nps}/10</span>` : ''}
+          </div>
+          <div style="font-size:11px;color:#aaa;white-space:nowrap;margin-left:10px">${r.ts}</div>
+        </div>
+        ${r.gostou ? `<div class="rr-quote">"${r.gostou}"</div>` : ''}
+        ${r.temas ? `<div class="rr-detail">📌 Temas: ${r.temas}</div>` : ''}
+        ${r.solucoes ? `<div class="rr-detail">💼 Soluções: ${r.solucoes}</div>` : ''}
+        ${r.msg ? `<div class="rr-detail">💬 ${r.msg}</div>` : ''}
+      </div>
+    `).join('');
+  }
+
+  function exportCSV() {
+    if (!resps.length) { alert('Nenhuma resposta para exportar.'); return; }
+    const headers = ['Timestamp','Nome','Empresa','E-mail','Cargo','NPS','O que gostou','Temas desejados','Outro tema','Soluções de interesse','Mensagem'];
+    const rows = resps.map(r =>
+      [r.ts, r.nome, r.empresa, r.email, r.cargo, r.nps, r.gostou, r.temas, r.outro, r.solucoes, r.msg]
+        .map(v => `"${(v || '').replace(/"/g, '""')}"`)
+        .join(',')
+    );
+    const blob = new Blob(['\uFEFF' + [headers.join(','), ...rows].join('\n')], { type: 'text/csv;charset=utf-8;' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'techconnect_feedback.csv'; a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  function limparRespostas() {
+    if (!confirm('Tem certeza que deseja apagar todas as respostas? Esta ação não pode ser desfeita.')) return;
+    resps = [];
+    try { localStorage.removeItem('tc_techconnect'); } catch(e) {}
+    atualizarStats();
+    renderRespostas();
+  }
+
+  let qrDone = false;
+  function gerarQR() {
+    const url = document.getElementById('url-input').value.trim();
+    if (!url || !url.startsWith('http')) { alert('Cole uma URL válida começando com http:// ou https://'); return; }
+    urlAtual = url;
+    document.getElementById('qr-url-display').textContent = url;
+    document.getElementById('qr-placeholder').style.display = 'none';
+    document.getElementById('qr-result').style.display = 'block';
+    const qrcEl = document.getElementById('qrc');
+    qrcEl.innerHTML = '';
+    new QRCode(qrcEl, { text: url, width: 220, height: 220, colorDark: '#1D4A8C', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.H });
+  }
+
+  function copiarLink() {
+    if (!urlAtual) { alert('Gere o QR Code primeiro.'); return; }
+    navigator.clipboard.writeText(urlAtual).then(() => alert('Link copiado!\n\n' + urlAtual)).catch(() => prompt('Copie o link abaixo:', urlAtual));
+  }
+</script>
+</body>
+</html>
