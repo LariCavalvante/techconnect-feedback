@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TECH CONNECT · Feedback do Evento</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #F4F6FA;
+    color: #1a1a2e;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+  .wrap { max-width: 620px; margin: 0 auto; }
+  .hdr { text-align: center; margin-bottom: 1.5rem; }
+  .hdr svg { display: block; margin: 0 auto 10px; }
+  .badge {
+    display: inline-block; background: #1D4A8C; color: #fff;
+    font-size: 11px; font-weight: 600; padding: 5px 16px;
+    border-radius: 20px; letter-spacing: 1.5px; margin-bottom: 10px;
+  }
+  .hdr h1 { font-size: 22px; font-weight: 600; color: #1D4A8C; margin-bottom: 6px; }
+  .hdr p { font-size: 14px; color: #666; }
+  .tabs {
+    display: flex; background: #fff; border-radius: 10px;
+    overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.08); margin-bottom: 1.5rem;
+  }
+  .tab {
+    flex: 1; padding: 12px 6px; text-align: center; font-size: 13px;
+    font-weight: 500; cursor: pointer; background: #fff; color: #888;
+    border: none; font-family: inherit; transition: all .2s;
+  }
+  .tab.on { background: #1D4A8C; color: #fff; }
+  .card {
+    background: #fff; border-radius: 12px; padding: 1.4rem;
+    margin-bottom: 1rem; box-shadow: 0 1px 4px rgba(0,0,0,.07);
+  }
+  .slbl {
+    font-size: 11px; font-weight: 700; color: #1D4A8C;
+    letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 1rem;
+  }
+  .f { margin-bottom: 1rem; }
+  .f:last-child { margin-bottom: 0; }
+  .f label { display: block; font-size: 13px; color: #555; margin-bottom: 6px; font-weight: 500; }
+  .f input, .f textarea {
+    width: 100%; background: #F8F9FC; border: 1px solid #E2E6EF;
+    border-radius: 8px; padding: 10px 12px; font-size: 14px;
+    color: #1a1a2e; font-family: inherit; outline: none; transition: border-color .2s;
+  }
+  .f input:focus, .f textarea:focus { border-color: #1D4A8C; background: #fff; }
+  .f textarea { resize: vertical; min-height: 80px; }
+  .r2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .nps { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+  .nb {
+    width: 42px; height: 42px; border: 1px solid #E2E6EF; border-radius: 8px;
+    background: #F8F9FC; cursor: pointer; font-size: 13px; font-weight: 600;
+    color: #555; transition: all .15s; display: flex; align-items: center; justify-content: center;
+  }
+  .nb:hover { border-color: #1D4A8C; color: #1D4A8C; }
+  .nb.s { background: #1D4A8C; color: #fff; border-color: #1D4A8C; }
+  .nlbl { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: #999; }
+  .cg { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+  .ci { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px; color: #333; }
+  .ci input { width: 16px; height: 16px; accent-color: #1D4A8C; cursor: pointer; flex-shrink: 0; }
+  .btn-send {
+    width: 100%; padding: 14px; background: #1D4A8C; color: #fff; border: none;
+    border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer;
+    font-family: inherit; margin-top: .5rem; transition: background .2s;
+  }
+  .btn-send:hover { background: #163a70; }
+  .ok { text-align: center; padding: 3rem 1rem; display: none; }
+  .ok-ic {
+    width: 60px; height: 60px; border-radius: 50%; background: #E1F5EE;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.2rem; font-size: 30px;
+  }
+  .ok h2 { font-size: 20px; font-weight: 600; margin-bottom: 8px; color: #1D4A8C; }
+  .ok p { font-size: 14px; color: #666; line-height: 1.6; }
+  .btn-novo {
+    display: inline-block; margin-top: 1.5rem; padding: 11px 28px;
+    background: #1D4A8C; color: #fff; border: none; border-radius: 8px;
+    font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;
+  }
+  .rh { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+  .rh h3 { font-size: 15px; font-weight: 600; color: #1a1a2e; }
+  .rc { background: #1D4A8C; color: #fff; font-size: 11px; padding: 3px 10px; border-radius: 12px; font-weight: 600; }
+  .eb {
+    padding: 8px 14px; border: 1px solid #E2E6EF; border-radius: 8px;
+    background: #fff; font-size: 13px; color: #555; cursor: pointer;
+    font-family: inherit; display: flex; align-items: center; gap: 6px;
+  }
+  .eb:hover { background: #F4F6FA; }
+  .rr { background: #fff; border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+  .rr-name { font-size: 14px; font-weight: 600; color: #1a1a2e; }
+  .rr-meta { font-size: 12px; color: #888; margin-top: 2px; }
+  .rr-nota { display: inline-block; margin-top: 6px; background: #E6F1FB; color: #0C447C; font-size: 11px; padding: 3px 9px; border-radius: 8px; font-weight: 600; }
+  .rr-quote { font-size: 13px; color: #666; margin-top: 7px; font-style: italic; }
+  .empty { text-align: center; padding: 2.5rem; color: #aaa; font-size: 14px; }
+
+  /* QR */
+  .qrwrap { text-align: center; padding: 1rem 0; }
+
+  /* URL EDITOR */
+  .url-editor {
+    background: #fff; border-radius: 12px; padding: 1.4rem;
+    margin-bottom: 1.2rem; box-shadow: 0 1px 4px rgba(0,0,0,.07);
+  }
+  .url-editor p {
+    font-size: 13px; color: #555; margin-bottom: 10px; line-height: 1.6;
+  }
+  .url-row { display: flex; gap: 8px; }
+  .url-input {
+    flex: 1; background: #F8F9FC; border: 1px solid #E2E6EF;
+    border-radius: 8px; padding: 10px 12px; font-size: 14px;
+    color: #1a1a2e; font-family: inherit; outline: none;
+  }
+  .url-input:focus { border-color: #1D4A8C; background: #fff; }
+  .btn-gerar {
+    padding: 10px 18px; background: #1D4A8C; color: #fff; border: none;
+    border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer;
+    font-family: inherit; white-space: nowrap;
+  }
+  .btn-gerar:hover { background: #163a70; }
+
+  .qrbox {
+    display: inline-block; padding: 18px; background: white;
+    border-radius: 14px; box-shadow: 0 2px 12px rgba(0,0,0,.1); position: relative;
+  }
+  .qrlogo {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    background: white; border-radius: 8px; padding: 4px;
+    width: 54px; height: 54px; display: flex; align-items: center; justify-content: center;
+  }
+  .qrnote { font-size: 13px; color: #888; margin-top: 12px; }
+  .qr-url-display {
+    margin: 10px auto 0; max-width: 360px; font-size: 12px; color: #1D4A8C;
+    word-break: break-all; background: #F0F4FA; padding: 8px 12px; border-radius: 8px;
+  }
+  .cpbtn {
+    margin-top: 12px; padding: 9px 18px; border: 1px solid #E2E6EF;
+    border-radius: 8px; background: #fff; font-size: 13px; color: #555;
+    cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .cpbtn:hover { background: #F4F6FA; }
+  .qr-info { margin-top: 16px; font-size: 12px; color: #999; max-width: 300px; margin-left: auto; margin-right: auto; line-height: 1.7; }
+  #qr-placeholder { color: #bbb; font-size: 13px; padding: 2rem 0; }
+  #qr-result { display: none; }
+
+  #vf { display: block; }
+  #vr, #vq { display: none; }
+
+  @media (max-width: 480px) {
+    .r2 { grid-template-columns: 1fr; }
+    .nb { width: 36px; height: 36px; font-size: 12px; }
+    .url-row { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hdr">
+    <svg width="200" height="58" viewBox="0 0 360 104" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <text x="0" y="72" font-family="Arial,sans-serif" font-weight="900" font-size="88" letter-spacing="-4" fill="#1D4A8C">TECH</text>
+      <line x1="0" y1="82" x2="360" y2="82" stroke="#1D4A8C" stroke-width="3"/>
+      <text x="6" y="102" font-family="Arial,sans-serif" font-weight="400" font-size="22" letter-spacing="14" fill="#1D4A8C">CONSULTING</text>
+    </svg>
+    <div class="badge">TECH CONNECT · JUN 2026</div>
+    <h1>Sua opinião sobre o evento</h1>
+    <p>Leva menos de 2 minutos. Obrigado por participar!</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab on" onclick="go('f',this)">📋 Formulário</button>
+    <button class="tab" onclick="go('r',this)">📊 Respostas</button>
+    <button class="tab" onclick="go('q',this)">📱 QR Code</button>
+  </div>
+
+  <!-- FORMULÁRIO -->
+  <div id="vf">
+    <div id="fc">
+      <div class="card">
+        <div class="slbl">Seus dados</div>
+        <div class="r2">
+          <div class="f"><label>Nome completo *</label><input id="nm" placeholder="João Silva"></div>
+          <div class="f"><label>Empresa *</label><input id="em" placeholder="Empresa S.A."></div>
+        </div>
+        <div class="r2">
+          <div class="f"><label>E-mail *</label><input type="email" id="mail" placeholder="joao@empresa.com"></div>
+          <div class="f"><label>Cargo</label><input id="cargo" placeholder="Gerente de TI"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="slbl">Avaliação geral</div>
+        <div class="f">
+          <label>Como você avalia o evento? (0 = ruim · 10 = excelente)</label>
+          <div class="nps">
+            <button class="nb" onclick="npsClick(this)">0</button>
+            <button class="nb" onclick="npsClick(this)">1</button>
+            <button class="nb" onclick="npsClick(this)">2</button>
+            <button class="nb" onclick="npsClick(this)">3</button>
+            <button class="nb" onclick="npsClick(this)">4</button>
+            <button class="nb" onclick="npsClick(this)">5</button>
+            <button class="nb" onclick="npsClick(this)">6</button>
+            <button class="nb" onclick="npsClick(this)">7</button>
+            <button class="nb" onclick="npsClick(this)">8</button>
+            <button class="nb" onclick="npsClick(this)">9</button>
+            <button class="nb" onclick="npsClick(this)">10</button>
+          </div>
+          <div class="nlbl"><span>Ruim</span><span>Excelente</span></div>
+        </div>
+        <div class="f">
+          <label>O que você mais gostou no evento?</label>
+          <textarea id="gostou" placeholder="Conte o que foi mais valioso para você..."></textarea>
+        </div>
+      </div>
+
+      <div class="card" id="card3">
+        <div class="slbl">Próximos eventos</div>
+        <div class="f">
+          <label>Temas que gostaria de ver no próximo evento</label>
+          <div class="cg">
+            <label class="ci"><input type="checkbox" value="Reforma Tributária na prática (IBS/CBS)"><span>Reforma tributária na prática (IBS/CBS)</span></label>
+            <label class="ci"><input type="checkbox" value="SAP S/4HANA: migração e novidades"><span>SAP S/4HANA: migração e novidades</span></label>
+            <label class="ci"><input type="checkbox" value="Automação fiscal com IA"><span>Automação fiscal com IA</span></label>
+            <label class="ci"><input type="checkbox" value="Split Payment e impactos no fluxo de caixa"><span>Split payment e impactos no fluxo de caixa</span></label>
+            <label class="ci"><input type="checkbox" value="Conciliação fiscal e NF-e"><span>Conciliação fiscal e NF-e</span></label>
+            <label class="ci"><input type="checkbox" value="Cases e benchmarking SAP"><span>Cases e benchmarking de empresas SAP</span></label>
+          </div>
+        </div>
+        <div class="f">
+          <label>Outro tema sugerido</label>
+          <input id="outro" placeholder="Escreva um tema de seu interesse...">
+        </div>
+      </div>
+
+      <div class="card" id="card4">
+        <div class="slbl">Interesse comercial</div>
+        <div class="f">
+          <label>Soluções de interesse da Tech Consulting</label>
+          <div class="cg">
+            <label class="ci"><input type="checkbox" value="Monitor de Eventos Fiscais"><span>Monitor de eventos fiscais</span></label>
+            <label class="ci"><input type="checkbox" value="Monitor de Notas de Crédito e Débito"><span>Monitor de notas de crédito e débito</span></label>
+            <label class="ci"><input type="checkbox" value="Conciliação Fiscal"><span>Conciliação fiscal</span></label>
+            <label class="ci"><input type="checkbox" value="Nenhuma no momento"><span>Nenhuma no momento</span></label>
+          </div>
+        </div>
+        <div class="f">
+          <label>Comentários, dúvidas ou sugestões</label>
+          <textarea id="msg" placeholder="Deixe qualquer mensagem para a equipe..."></textarea>
+        </div>
+      </div>
+
+      <button class="btn-send" onclick="send()">Enviar feedback →</button>
+    </div>
+
+    <div class="ok" id="ok">
+      <div class="ok-ic">✅</div>
+      <h2>Obrigado pelo feedback!</h2>
+      <p>Suas respostas foram salvas com sucesso.<br>Nos vemos no próximo TECH CONNECT!</p>
+      <button class="btn-novo" onclick="novo()">Novo registro</button>
+    </div>
+  </div>
+
+  <!-- RESPOSTAS -->
+  <div id="vr">
+    <div class="rh">
+      <div style="display:flex;align-items:center;gap:10px">
+        <h3>Respostas coletadas</h3>
+        <span class="rc" id="cnt">0</span>
+      </div>
+      <button class="eb" onclick="exportCSV()">⬇️ Exportar CSV</button>
+    </div>
+    <div id="rl"><div class="empty">Nenhuma resposta ainda.</div></div>
+  </div>
+
+  <!-- QR CODE -->
+  <div id="vq">
+    <div class="qrwrap">
+
+      <!-- EDITOR DE URL -->
+      <div class="url-editor">
+        <div class="slbl">Configure o QR Code</div>
+        <p>Cole abaixo a URL onde este arquivo está hospedado. O QR Code será gerado apontando para esse endereço.</p>
+        <div class="url-row">
+          <input class="url-input" id="url-input" placeholder="https://seusite.com.br/techconnect" />
+          <button class="btn-gerar" onclick="gerarQR()">Gerar QR Code</button>
+        </div>
+      </div>
+
+      <!-- QR PLACEHOLDER -->
+      <div id="qr-placeholder">
+        <p>👆 Cole a URL acima e clique em <strong>Gerar QR Code</strong></p>
+      </div>
+
+      <!-- QR RESULTADO -->
+      <div id="qr-result">
+        <div class="qrbox">
+          <div id="qrc"></div>
+          <div class="qrlogo">
+            <svg width="44" height="44" viewBox="0 0 360 104" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="360" height="104" rx="8" fill="white"/>
+              <text x="4" y="72" font-family="Arial,sans-serif" font-weight="900" font-size="88" letter-spacing="-4" fill="#1D4A8C">TECH</text>
+            </svg>
+          </div>
+        </div>
+        <div class="qrnote">Aponte a câmera para acessar o formulário</div>
+        <div class="qr-url-display" id="qr-url-display"></div>
+        <div>
+          <button class="cpbtn" onclick="copiarLink()">📋 Copiar link</button>
+        </div>
+        <div class="qr-info">
+          Imprima este QR Code e coloque na recepção do evento, ou compartilhe digitalmente com os convidados.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  let npsVal = null;
+  let resps  = [];
+  let qrObj  = null;
+  let urlAtual = '';
+
+  try {
+    const s = localStorage.getItem('tc_techconnect');
+    if (s) resps = JSON.parse(s);
+  } catch(e) {}
+  atualizarContador();
+
+  function go(v, btn) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+    btn.classList.add('on');
+    document.getElementById('vf').style.display = v === 'f' ? 'block' : 'none';
+    document.getElementById('vr').style.display = v === 'r' ? 'block' : 'none';
+    document.getElementById('vq').style.display = v === 'q' ? 'block' : 'none';
+    if (v === 'r') renderRespostas();
+  }
+
+  function npsClick(btn) {
+    document.querySelectorAll('.nb').forEach(b => b.classList.remove('s'));
+    btn.classList.add('s');
+    npsVal = btn.textContent;
+  }
+
+  function getChecked(containerId) {
+    return Array.from(
+      document.getElementById(containerId).querySelectorAll('input[type=checkbox]:checked')
+    ).map(c => c.value).join(', ');
+  }
+
+  function send() {
+    const nm   = document.getElementById('nm').value.trim();
+    const em   = document.getElementById('em').value.trim();
+    const mail = document.getElementById('mail').value.trim();
+    if (!nm || !em || !mail) { alert('Por favor, preencha nome, empresa e e-mail.'); return; }
+    const entry = {
+      ts: new Date().toLocaleString('pt-BR'),
+      nome: nm, empresa: em, email: mail,
+      cargo: document.getElementById('cargo').value.trim(),
+      nps: npsVal || '-',
+      gostou: document.getElementById('gostou').value.trim(),
+      temas: getChecked('card3'),
+      outro: document.getElementById('outro').value.trim(),
+      solucoes: getChecked('card4'),
+      msg: document.getElementById('msg').value.trim()
+    };
+    resps.push(entry);
+    try { localStorage.setItem('tc_techconnect', JSON.stringify(resps)); } catch(e) {}
+    atualizarContador();
+    document.getElementById('fc').style.display = 'none';
+    document.getElementById('ok').style.display  = 'block';
+  }
+
+  function novo() {
+    document.getElementById('fc').style.display = 'block';
+    document.getElementById('ok').style.display  = 'none';
+    ['nm','em','mail','cargo','gostou','outro','msg'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+    document.querySelectorAll('input[type=checkbox]').forEach(c => c.checked = false);
+    document.querySelectorAll('.nb').forEach(b => b.classList.remove('s'));
+    npsVal = null;
+  }
+
+  function atualizarContador() {
+    const el = document.getElementById('cnt');
+    if (el) el.textContent = resps.length;
+  }
+
+  function renderRespostas() {
+    const rl = document.getElementById('rl');
+    if (!resps.length) {
+      rl.innerHTML = '<div class="empty">Nenhuma resposta ainda.<br>Compartilhe o formulário para começar!</div>';
+      return;
+    }
+    rl.innerHTML = resps.map(r => `
+      <div class="rr">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div class="rr-name">${r.nome}</div>
+            <div class="rr-meta">${r.empresa}${r.cargo ? ' · ' + r.cargo : ''} · ${r.email}</div>
+            ${r.nps !== '-' ? `<span class="rr-nota">Nota: ${r.nps}/10</span>` : ''}
+          </div>
+          <div style="font-size:11px;color:#aaa;white-space:nowrap;margin-left:10px">${r.ts}</div>
+        </div>
+        ${r.gostou ? `<div class="rr-quote">"${r.gostou}"</div>` : ''}
+      </div>
+    `).join('');
+  }
+
+  function exportCSV() {
+    if (!resps.length) { alert('Nenhuma resposta para exportar.'); return; }
+    const headers = ['Timestamp','Nome','Empresa','E-mail','Cargo','NPS','O que gostou','Temas desejados','Outro tema','Soluções de interesse','Mensagem'];
+    const rows = resps.map(r =>
+      [r.ts, r.nome, r.empresa, r.email, r.cargo, r.nps, r.gostou, r.temas, r.outro, r.solucoes, r.msg]
+        .map(v => `"${(v || '').replace(/"/g, '""')}"`)
+        .join(',')
+    );
+    const blob = new Blob(['\uFEFF' + [headers.join(','), ...rows].join('\n')], { type: 'text/csv;charset=utf-8;' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'techconnect_feedback.csv';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  function gerarQR() {
+    const url = document.getElementById('url-input').value.trim();
+    if (!url || !url.startsWith('http')) {
+      alert('Cole uma URL válida começando com http:// ou https://');
+      return;
+    }
+
+    urlAtual = url;
+    document.getElementById('qr-url-display').textContent = url;
+    document.getElementById('qr-placeholder').style.display = 'none';
+    document.getElementById('qr-result').style.display = 'block';
+
+    // Limpa QR anterior se existir
+    const qrcEl = document.getElementById('qrc');
+    qrcEl.innerHTML = '';
+
+    new QRCode(qrcEl, {
+      text:         url,
+      width:        220,
+      height:       220,
+      colorDark:    '#1D4A8C',
+      colorLight:   '#ffffff',
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  }
+
+  function copiarLink() {
+    if (!urlAtual) { alert('Gere o QR Code primeiro.'); return; }
+    navigator.clipboard.writeText(urlAtual)
+      .then(() => alert('Link copiado!\n\n' + urlAtual))
+      .catch(() => prompt('Copie o link abaixo:', urlAtual));
+  }
+</script>
+</body>
+</html>
