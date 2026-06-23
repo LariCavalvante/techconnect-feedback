@@ -17,20 +17,40 @@
   .slbl { font-size: 11px; font-weight: 700; color: #1D4A8C; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 1rem; }
   .f { margin-bottom: 1rem; }
   .f:last-child { margin-bottom: 0; }
-  .f label { display: block; font-size: 13px; color: #555; margin-bottom: 6px; font-weight: 500; }
-  .f input, .f textarea { width: 100%; background: #F8F9FC; border: 1px solid #E2E6EF; border-radius: 8px; padding: 10px 12px; font-size: 14px; color: #1a1a2e; font-family: inherit; outline: none; transition: border-color .2s; }
-  .f input:focus, .f textarea:focus { border-color: #1D4A8C; background: #fff; }
+  .f label.field-label { display: block; font-size: 13px; color: #555; margin-bottom: 6px; font-weight: 500; }
+  .f .opt { font-size: 11px; color: #aaa; font-weight: 400; margin-left: 4px; }
+  .f input[type=text], .f input[type=email], .f textarea {
+    width: 100%; background: #F8F9FC; border: 1px solid #E2E6EF;
+    border-radius: 8px; padding: 10px 12px; font-size: 14px;
+    color: #1a1a2e; font-family: inherit; outline: none; transition: border-color .2s;
+  }
+  .f input[type=text]:focus, .f input[type=email]:focus, .f textarea:focus { border-color: #1D4A8C; background: #fff; }
   .f textarea { resize: vertical; min-height: 80px; }
   .r2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .nps { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
-  .nb { width: 42px; height: 42px; border: 1px solid #E2E6EF; border-radius: 8px; background: #F8F9FC; cursor: pointer; font-size: 13px; font-weight: 600; color: #555; transition: all .15s; display: flex; align-items: center; justify-content: center; }
+  .nb {
+    width: 42px; height: 42px; border: 1px solid #E2E6EF; border-radius: 8px;
+    background: #F8F9FC; cursor: pointer; font-size: 13px; font-weight: 600;
+    color: #555; transition: all .15s; display: flex; align-items: center; justify-content: center;
+  }
   .nb:hover { border-color: #1D4A8C; color: #1D4A8C; }
   .nb.s { background: #1D4A8C; color: #fff; border-color: #1D4A8C; }
   .nlbl { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: #999; }
-  .cg { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
-  .ci { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px; color: #333; }
-  .ci input { width: 16px; height: 16px; accent-color: #1D4A8C; cursor: pointer; flex-shrink: 0; }
-  .btn-send { width: 100%; padding: 14px; background: #1D4A8C; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; margin-top: .5rem; transition: background .2s; }
+  .cg { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+  .ci {
+    display: flex; align-items: flex-start; gap: 10px;
+    cursor: pointer; font-size: 14px; color: #333; line-height: 1.5;
+  }
+  .ci input[type=checkbox], .ci input[type=radio] {
+    width: 16px; height: 16px; min-width: 16px;
+    accent-color: #1D4A8C; cursor: pointer; margin-top: 2px;
+  }
+  .ci span { flex: 1; }
+  .btn-send {
+    width: 100%; padding: 14px; background: #1D4A8C; color: #fff; border: none;
+    border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer;
+    font-family: inherit; margin-top: .5rem; transition: background .2s;
+  }
   .btn-send:hover { background: #163a70; }
   .btn-send:disabled { background: #aaa; cursor: not-allowed; }
   .ok { text-align: center; padding: 3rem 1rem; display: none; }
@@ -51,22 +71,31 @@
   </div>
 
   <div id="fc">
+
+    <!-- DADOS -->
     <div class="card">
       <div class="slbl">Seus dados</div>
       <div class="r2">
-        <div class="f"><label>Nome completo *</label><input id="nm" placeholder="João Silva"></div>
-        <div class="f"><label>Empresa *</label><input id="em" placeholder="Empresa S.A."></div>
+        <div class="f">
+          <label class="field-label">Nome <span class="opt">(opcional)</span></label>
+          <input type="text" id="nm" placeholder="João Silva">
+        </div>
+        <div class="f">
+          <label class="field-label">Empresa <span class="opt">(opcional)</span></label>
+          <input type="text" id="em" placeholder="Empresa S.A.">
+        </div>
       </div>
-      <div class="r2">
-        <div class="f"><label>E-mail *</label><input type="email" id="mail" placeholder="joao@empresa.com"></div>
-        <div class="f"><label>Cargo</label><input id="cargo" placeholder="Gerente de TI"></div>
+      <div class="f">
+        <label class="field-label">E-mail <span class="opt">(opcional)</span></label>
+        <input type="email" id="mail" placeholder="joao@empresa.com">
       </div>
     </div>
 
+    <!-- AVALIAÇÃO -->
     <div class="card">
-      <div class="slbl">Avaliação geral</div>
+      <div class="slbl">Avaliação do evento</div>
       <div class="f">
-        <label>Como você avalia o evento? (0 = ruim · 10 = excelente)</label>
+        <label class="field-label">Como você avalia o evento? (0 = ruim · 10 = excelente)</label>
         <div class="nps">
           <button class="nb" onclick="npsClick(this)">0</button>
           <button class="nb" onclick="npsClick(this)">1</button>
@@ -83,43 +112,52 @@
         <div class="nlbl"><span>Ruim</span><span>Excelente</span></div>
       </div>
       <div class="f">
-        <label>O que você mais gostou no evento?</label>
+        <label class="field-label">O que você mais gostou no evento?</label>
         <textarea id="gostou" placeholder="Conte o que foi mais valioso para você..."></textarea>
       </div>
     </div>
 
+    <!-- TEMAS -->
     <div class="card" id="card3">
-      <div class="slbl">Próximos eventos</div>
+      <div class="slbl">Temas para os próximos eventos</div>
       <div class="f">
-        <label>Temas que gostaria de ver no próximo evento</label>
+        <label class="field-label">Quais temas você gostaria de ver nos próximos eventos?</label>
         <div class="cg">
-          <label class="ci"><input type="checkbox" value="Automação Fiscal com IA"><span>Automação fiscal com IA</span></label>
-          <label class="ci"><input type="checkbox" value="Reforma Tributária na prática (IBS/CBS)"><span>Reforma tributária na prática (IBS/CBS)</span></label>
-          <label class="ci"><input type="checkbox" value="Como a determinação do IVA te ajuda na Reforma Tributária"><span>Como a determinação do IVA te ajuda na Reforma Tributária</span></label>
+          <label class="ci">
+            <input type="checkbox" value="Automação dos novos documentos eletrônicos (NF3e, NFCom, NfAg, NFGas).">
+            <span>Automação dos novos documentos eletrônicos (NF3e, NFCom, NfAg, NFGas).</span>
+          </label>
+          <label class="ci">
+            <input type="checkbox" value="Cases de automação de documentos fiscais.">
+            <span>Cases de automação de documentos fiscais.</span>
+          </label>
         </div>
       </div>
       <div class="f">
-        <label>Outro tema sugerido</label>
-        <input id="outro" placeholder="Escreva um tema de seu interesse...">
+        <label class="field-label">Outros temas sugeridos</label>
+        <input type="text" id="outro" placeholder="Descreva os temas que você gostaria...">
       </div>
     </div>
 
-    <div class="card" id="card4">
-      <div class="slbl">Interesse comercial</div>
+    <!-- HORÁRIO -->
+    <div class="card">
+      <div class="slbl">Sugestões de horários para os próximos eventos</div>
       <div class="f">
-        <label>Soluções de interesse da Tech Consulting</label>
+        <label class="field-label">Quais horários você prefere?</label>
         <div class="cg">
-          <label class="ci"><input type="checkbox" value="Monitor de Eventos Fiscais"><span>Monitor de eventos fiscais</span></label>
-          <label class="ci"><input type="checkbox" value="Monitor de Notas de Crédito e Débito"><span>Monitor de notas de crédito e débito</span></label>
-          <label class="ci"><input type="checkbox" value="Conciliação Fiscal"><span>Conciliação fiscal</span></label>
-          <label class="ci"><input type="checkbox" value="Automação de Documentos Fiscais"><span>Automação de documentos fiscais</span></label>
-          <label class="ci"><input type="checkbox" value="Tax Automation"><span>Tax Automation</span></label>
-          <label class="ci"><input type="checkbox" value="Nenhuma no momento"><span>Nenhuma no momento</span></label>
+          <label class="ci">
+            <input type="radio" name="horario" value="Café da manhã.">
+            <span>☕ Café da manhã.</span>
+          </label>
+          <label class="ci">
+            <input type="radio" name="horario" value="Almoço.">
+            <span>🍽️ Almoço.</span>
+          </label>
+          <label class="ci">
+            <input type="radio" name="horario" value="Pós expediente.">
+            <span>🌆 Pós expediente.</span>
+          </label>
         </div>
-      </div>
-      <div class="f">
-        <label>Comentários, dúvidas ou sugestões</label>
-        <textarea id="msg" placeholder="Deixe qualquer mensagem para a equipe..."></textarea>
       </div>
     </div>
 
@@ -129,7 +167,7 @@
   <div class="ok" id="ok">
     <div class="ok-ic">✅</div>
     <h2>Obrigado pelo feedback!</h2>
-    <p>Suas respostas foram salvas com sucesso.<br>Nos vemos no próximo TECH CONNECT!</p>
+    <p>Suas respostas foram salvas com sucesso.<br>Nos vemos nos próximos eventos TECH CONNECT!</p>
     <button class="btn-novo" onclick="novo()">Novo registro</button>
   </div>
 </div>
@@ -145,44 +183,56 @@
   }
 
   function getChecked(containerId) {
-    return Array.from(document.getElementById(containerId).querySelectorAll('input[type=checkbox]:checked')).map(c => c.value).join(', ');
+    return Array.from(document.getElementById(containerId)
+      .querySelectorAll('input[type=checkbox]:checked'))
+      .map(c => c.value).join(', ');
+  }
+
+  function getRadio(name) {
+    const el = document.querySelector('input[name="' + name + '"]:checked');
+    return el ? el.value : '-';
   }
 
   async function send() {
-    const nm   = document.getElementById('nm').value.trim();
-    const em   = document.getElementById('em').value.trim();
-    const mail = document.getElementById('mail').value.trim();
-    if (!nm || !em || !mail) { alert('Por favor, preencha nome, empresa e e-mail.'); return; }
     const btn = document.getElementById('btn-send');
     btn.disabled = true;
     btn.textContent = 'Enviando...';
+
     const entry = {
-      ts: new Date().toLocaleString('pt-BR'),
-      nome: nm, empresa: em, email: mail,
-      cargo: document.getElementById('cargo').value.trim(),
-      nps: npsVal || '-',
-      gostou: document.getElementById('gostou').value.trim(),
-      temas: getChecked('card3'),
-      outro: document.getElementById('outro').value.trim(),
-      solucoes: getChecked('card4'),
-      msg: document.getElementById('msg').value.trim()
+      ts:       new Date().toLocaleString('pt-BR'),
+      nome:     document.getElementById('nm').value.trim()   || '-',
+      empresa:  document.getElementById('em').value.trim()   || '-',
+      email:    document.getElementById('mail').value.trim() || '-',
+      cargo:    '-',
+      nps:      npsVal || '-',
+      gostou:   document.getElementById('gostou').value.trim(),
+      temas:    getChecked('card3'),
+      outro:    document.getElementById('outro').value.trim(),
+      solucoes: '-',
+      msg:      getRadio('horario')
     };
+
     try {
-      await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(entry) });
+      await fetch(SCRIPT_URL, {
+        method: 'POST', mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(entry)
+      });
     } catch(e) {}
+
     document.getElementById('fc').style.display = 'none';
-    document.getElementById('ok').style.display = 'block';
+    document.getElementById('ok').style.display  = 'block';
   }
 
   function novo() {
     document.getElementById('fc').style.display = 'block';
-    document.getElementById('ok').style.display = 'none';
+    document.getElementById('ok').style.display  = 'none';
     const btn = document.getElementById('btn-send');
     btn.disabled = false;
     btn.textContent = 'Enviar feedback →';
-    ['nm','em','mail','cargo','gostou','outro','msg'].forEach(id => document.getElementById(id).value = '');
+    ['nm','em','mail','gostou','outro'].forEach(id => document.getElementById(id).value = '');
     document.querySelectorAll('input[type=checkbox]').forEach(c => c.checked = false);
-    document.querySelectorAll('.nb').forEach(b => b.classList.remove('s'));
+    document.querySelectorAll('input[type=radio]').forEach(r => r.checked = false);
     npsVal = null;
   }
 </script>
