@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Obrigado | Reforma Tributária no SAP – Tech Consulting</title>
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-KWL2358B');</script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #141466;
+      --navy2:  #1a1666;
+      --gold:   #f4ae07;
+      --white:  #ffffff;
+      --text:   #e8e8f0;
+      --dark:   #141414;
+    }
+
+    body {
+      background-color: var(--navy);
+      color: var(--white);
+      font-family: 'Open Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background-color: var(--dark);
+      display: flex;
+      justify-content: center;
+      padding: 18px 20px;
+    }
+
+    header img {
+      height: 40px;
+      width: auto;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(160deg, #141466 0%, #1a1666 60%, #0d0d44 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 60px 20px 50px;
+      flex: 1;
+    }
+
+    .check-circle {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background-color: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 28px;
+      flex-shrink: 0;
+    }
+
+    .check-circle svg {
+      width: 38px;
+      height: 38px;
+    }
+
+    .hero h1 {
+      font-family: 'Ubuntu', sans-serif;
+      font-size: clamp(26px, 5vw, 38px);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.2;
+      max-width: 620px;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 span {
+      color: var(--gold);
+    }
+
+    .hero p {
+      font-size: clamp(15px, 2.5vw, 17px);
+      color: var(--text);
+      max-width: 520px;
+      line-height: 1.6;
+      margin-bottom: 40px;
+    }
+
+    /* ── DOWNLOAD BUTTON ── */
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background-color: var(--gold);
+      color: var(--navy2);
+      font-family: 'Ubuntu', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 16px 36px;
+      border-radius: 8px;
+      border: 3px solid transparent;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.15s;
+      box-shadow: 0 4px 20px rgba(244, 174, 7, 0.35);
+    }
+
+    .btn-download:hover {
+      background-color: #ffc01a;
+      transform: translateY(-2px);
+    }
+
+    .btn-download:active {
+      transform: translateY(0);
+    }
+
+    .btn-download svg {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 60px;
+      height: 3px;
+      background-color: var(--gold);
+      border-radius: 2px;
+      margin: 52px auto 0;
+    }
+
+    /* ── NEXT STEP CARD ── */
+    .next-step {
+      background-color: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      max-width: 520px;
+      width: 100%;
+      margin: 32px auto 0;
+      padding: 28px 32px;
+      text-align: center;
+    }
+
+    .next-step p.label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .next-step p.body {
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.6;
+      margin-bottom: 22px;
+    }
+
+    .btn-secondary {
+      display: inline-block;
+      background-color: transparent;
+      color: var(--white);
+      font-family: 'Ubuntu', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 12px 28px;
+      border-radius: 6px;
+      border: 2px solid var(--white);
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--white);
+      color: var(--navy2);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background-color: var(--dark);
+      text-align: center;
+      padding: 20px;
+      font-size: 13px;
+      color: #888;
+    }
+
+    footer a { color: #888; text-decoration: none; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 480px) {
+      .hero { padding: 44px 16px 40px; }
+      .next-step { padding: 22px 20px; margin-top: 28px; }
+      .btn-download { font-size: 16px; padding: 14px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KWL2358B"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<header>
+  <img
+    src="https://d335luupugsy2.cloudfront.net/cms/files/924289/1733176855/$u7obdc63vyd"
+    alt="Tech Consulting"
+  >
+</header>
+
+<main class="hero">
+
+  <div class="check-circle">
+    <!-- checkmark icon -->
+    <svg viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polyline points="8,20 16,28 30,12" stroke="#141466" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <h1>Seu e-book está pronto<br>para <span>download!</span></h1>
+
+  <p>
+    Obrigado pelo seu interesse. Clique no botão abaixo para baixar o guia
+    <strong>Reforma Tributária no SAP</strong> e prepare sua empresa para as
+    novas exigências fiscais.
+  </p>
+
+  <a
+    id="btn-download"
+    class="btn-download"
+    href="https://techconsultingbr.github.io/techconnect-feedback/ebook-reforma-tributaria-sap-PDF.pdf"
+    download="Ebook-Reforma-Tributaria-SAP-TechConsulting.pdf"
+    target="_blank"
+  >
+    <!-- download icon -->
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 3v13M7 11l5 5 5-5" stroke="#141466" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M4 19h16" stroke="#141466" stroke-width="2.2" stroke-linecap="round"/>
+    </svg>
+    Baixar E-book Gratuitamente
+  </a>
+
+  <div class="divider"></div>
+
+  <div class="next-step">
+    <p class="label">Próximo passo</p>
+    <p class="body">
+      Quer conversar com um especialista sobre como adequar o seu SAP
+      à Reforma Tributária? Agende uma conversa sem compromisso.
+    </p>
+    <a
+      class="btn-secondary"
+      href="https://calendly.com/techconsulting-marketing/agendamento"
+      target="_blank"
+    >
+      Falar com um especialista
+    </a>
+  </div>
+
+</main>
+
+<footer>
+  © 2025 Tech Consulting e Solutions Informática Ltda. &nbsp;|&nbsp;
+  <a href="https://techconsulting.inf.br">techconsulting.inf.br</a>
+</footer>
+
+<!-- Meta Pixel -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', "1247821772942534");
+  fbq('track', 'PageView');
+  fbq('track', 'Lead'); // dispara evento de Lead para o Meta Ads
+</script>
+</body>
+</html>
